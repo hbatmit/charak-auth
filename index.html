@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charak - OAuth Redirect</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #0f2920 0%, #1a3a2f 100%);
+            color: #faf6f0;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #c67b5c;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #e8e0d4;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(250,246,240,0.1);
+            border-top-color: #c67b5c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        a {
+            color: #c67b5c;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .manual-link {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+    <script>
+        // Get query parameters from current URL
+        const queryString = window.location.search;
+        
+        // Build the custom URL scheme redirect
+        const charakUrl = 'charak://callback' + queryString;
+        
+        // Attempt redirect
+        window.location.href = charakUrl;
+        
+        // If we're still here after 2 seconds, show manual link
+        setTimeout(function() {
+            document.getElementById('manual').style.display = 'block';
+            document.getElementById('spinner').style.display = 'none';
+        }, 2000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Charak</h1>
+        <p>Redirecting you back to the Charak app...</p>
+        <div class="spinner" id="spinner"></div>
+        <div class="manual-link" id="manual" style="display: none;">
+            <p>If the app didn't open automatically:</p>
+            <p><a id="link" href="#">Click here to open Charak</a></p>
+            <p style="font-size: 12px; margin-top: 16px; color: #7c9a8c;">
+                Make sure the Charak app is running on your computer.
+            </p>
+        </div>
+    </div>
+    <script>
+        // Set the manual link href
+        document.getElementById('link').href = 'charak://callback' + window.location.search;
+    </script>
+</body>
+</html>
